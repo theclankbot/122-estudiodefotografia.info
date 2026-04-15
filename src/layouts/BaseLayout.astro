@@ -1,4 +1,5 @@
 ---
+import Analytics from "@vercel/analytics/astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import "../styles/global.css";
@@ -41,5 +42,6 @@ const robotsContent = noindex ? "noindex, nofollow" : "index,follow";
       <slot />
     </main>
     <SiteFooter />
+    <Analytics />
   </body>
 </html>
