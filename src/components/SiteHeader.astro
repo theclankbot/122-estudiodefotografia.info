@@ -1,0 +1,33 @@
+---
+import { navigation } from "../data/site";
+---
+
+<header class="site-header">
+  <div class="shell header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">EF</span>
+      <span class="brand-copy">
+        <strong>Estudio de Fotografia</strong>
+        <small>Guias visuales, tecnica y criterio</small>
+      </span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Principal">
+      {navigation.map((item) => (
+        <a href={item.href}>{item.label}</a>
+      ))}
+    </nav>
+
+    <a class="header-cta" href="/guias/">Ver guias</a>
+
+    <details class="mobile-nav">
+      <summary aria-label="Abrir menu">Menu</summary>
+      <div class="mobile-panel">
+        {navigation.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))}
+        <a class="mobile-cta" href="/guias/">Explorar guias</a>
+      </div>
+    </details>
+  </div>
+</header>

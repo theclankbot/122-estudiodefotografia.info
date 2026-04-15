@@ -1,0 +1,179 @@
+---
+import ArticleCard from "../components/ArticleCard.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  articles,
+  categories,
+  curatedReadingSlugs,
+  editorialPrinciples,
+  featuredArticleSlugs,
+  getArticleBySlug,
+  homeStats,
+  learningTracks
+} from "../data/site";
+import type { Article } from "../data/site";
+
+const featuredArticles = featuredArticleSlugs
+  .map((slug) => getArticleBySlug(slug))
+  .filter((article): article is Article => Boolean(article));
+
+const curatedArticles = curatedReadingSlugs
+  .map((slug) => getArticleBySlug(slug))
+  .filter((article): article is Article => Boolean(article));
+
+const latestArticles = (curatedArticles.length > 0 ? curatedArticles : articles.slice(0, 6)).slice(0, 6);
+---
+
+<BaseLayout
+  title="Guias de fotografia, edicion, composicion y equipo"
+  description="Tecnica, composicion, retrato, edicion, equipo y cultura visual para aprender fotografia con explicaciones claras, buenas referencias y herramientas utiles."
+>
+  <section class="hero">
+    <div class="shell hero-grid">
+      <div class="hero-panel">
+        <p class="eyebrow">Guias de fotografia en espanol</p>
+        <h1>Aprender fotografia sin ruido, con criterio y con una ruta clara.</h1>
+        <p>
+          Aqui conviven tecnica, composicion, retrato, edicion, equipo y cultura visual
+          para ayudarte a entender mejor la imagen, resolver dudas concretas y seguir
+          practicando con mas intencion.
+        </p>
+        <div class="hero-actions">
+          <a class="button-primary" href="/guias/">Explorar todas las guias</a>
+          <a class="button-secondary" href="/documentos-de-identidad/tamano-carnet-medidas/">
+            Ir a la guia de foto carnet
+          </a>
+        </div>
+      </div>
+
+      <aside class="hero-side">
+        <div>
+          <p class="eyebrow">Que encontraras aqui</p>
+          <h2>Lecturas utiles, buenas bases y referencias que si empujan tu mirada.</h2>
+        </div>
+        {homeStats.map((item) => (
+          <div class="hero-aside-stat">
+            <strong>{item.value}</strong>
+            <span>{item.label}</span>
+          </div>
+        ))}
+      </aside>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Explora por temas</p>
+          <h2>Entra por el bloque que mas te resuelva ahora</h2>
+        </div>
+        <p>
+          Desde fundamentos tecnicos y composicion hasta edicion, impresion o paisaje:
+          cada seccion esta pensada para que puedas enlazar lecturas relacionadas y avanzar
+          sin perderte entre articulos sueltos.
+        </p>
+      </div>
+
+      <div class="grid-4">
+        {categories.map((category) => (
+          <a class="hub-panel" href={`/${category.slug}/`}>
+            <p class="story-meta">{category.routeLabel}</p>
+            <h3>{category.name}</h3>
+            <p>{category.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Para empezar bien</p>
+          <h2>Cuatro guias que ordenan mucho la conversacion</h2>
+        </div>
+        <p>
+          Son una entrada muy util al sitio: resuelven dudas frecuentes, explican bien la base
+          y conectan con otras lecturas importantes.
+        </p>
+      </div>
+
+      <div class="story-grid">
+        {featuredArticles.map((article) => (
+          <ArticleCard article={article} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Rutas de lectura</p>
+          <h2>Tres formas rapidas de empezar segun lo que busques</h2>
+        </div>
+        <p>
+          Si vienes a entender la camara, a mejorar la mirada o a ordenar mejor la edicion,
+          estas rutas te dan un primer hilo del que tirar.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        {learningTracks.map((track) => (
+          <a class="metric-panel" href={track.href}>
+            <strong>{track.title}</strong>
+            <span>{track.text}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Como esta pensado el contenido</p>
+          <h2>Leer, consultar y volver a practicar</h2>
+        </div>
+        <p>
+          Aqui hay guias practicas, glosarios, comparativas, selecciones y herramientas.
+          La idea no es acumular temas, sino ayudarte a entender mejor cada decision.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        {editorialPrinciples.map((principle, index) => (
+          <article class="metric-panel">
+            <strong>0{index + 1}</strong>
+            <span>{principle}</span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Mas lecturas</p>
+          <h2>Una seleccion para seguir recorriendo la web</h2>
+        </div>
+        <p>
+          Esta mezcla de tecnica, paisaje, escaneado, revelado y comparativa sirve bien como
+          segunda capa para entender el tono del sitio y descubrir temas mas concretos.
+        </p>
+      </div>
+
+      <div class="story-grid">
+        {latestArticles.map((article) => (
+          <ArticleCard article={article} compact />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

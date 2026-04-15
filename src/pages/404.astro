@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Página no encontrada"
+  description="La página que buscas no está disponible. Vuelve al inicio o explora las guías principales de Estudio de Fotografía."
+  noindex
+>
+  <section class="article-shell">
+    <div class="shell article-hero">
+      <div class="article-panel">
+        <p class="eyebrow">404</p>
+        <h1>Esta página no está disponible</h1>
+        <p>
+          Puede que la URL haya cambiado o que ese contenido ya no esté publicado. Puedes volver al inicio
+          o entrar por una de las secciones principales para seguir navegando.
+        </p>
+        <div class="story-grid" style="margin-top: 1.5rem; grid-template-columns: repeat(2, minmax(0, 1fr));">
+          <a class="story-card" href="/">
+            <strong>Ir al inicio</strong>
+            <span>Volver a la portada y explorar desde ahí.</span>
+          </a>
+          <a class="story-card" href="/guias/">
+            <strong>Ver guías</strong>
+            <span>Entrar a la navegación principal por temas.</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

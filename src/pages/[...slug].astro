@@ -1,0 +1,257 @@
+---
+import ArticleCard from "../components/ArticleCard.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import PrintSizeCalculator from "../components/PrintSizeCalculator.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  articles,
+  categories,
+  getArticleBySlug,
+  getArticlesByCategory,
+  getCategoryBySlug,
+  getRelatedArticles
+} from "../data/site";
+
+export function getStaticPaths() {
+  const categoryPaths = categories.map((category) => ({
+    params: { slug: category.slug },
+    props: { kind: "category", slug: category.slug }
+  }));
+
+  const articlePaths = articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { kind: "article", slug: article.slug }
+  }));
+
+  return [...categoryPaths, ...articlePaths];
+}
+
+const { kind, slug } = Astro.props as {
+  kind: "category" | "article";
+  slug: string;
+};
+
+const category = kind === "category" ? getCategoryBySlug(slug) : undefined;
+const article = kind === "article" ? getArticleBySlug(slug) : undefined;
+
+const relatedArticles = article ? getRelatedArticles(article.related) : [];
+const categoryArticles = category ? getArticlesByCategory(category.slug) : [];
+const startHere = category ? getArticleBySlug(category.startHere) : undefined;
+---
+
+{
+  kind === "category" && category ? (
+    <BaseLayout title={category.name} description={category.description}>
+      <section class="hub-shell">
+        <div class="shell hub-hero">
+          <div class="hub-panel">
+            <Breadcrumbs
+              items={[
+                { label: "Inicio", href: "/" },
+                { label: "Guias", href: "/guias/" },
+                { label: category.name }
+              ]}
+            />
+            <p class="eyebrow">{category.tagline}</p>
+            <h1>{category.name}</h1>
+            <p>{category.intro}</p>
+          </div>
+
+          <aside class="summary-panel">
+            <p class="eyebrow">Panorama</p>
+            <ul>
+              <li>{category.description}</li>
+              <li>{categoryArticles.length} articulos disponibles en esta seccion.</li>
+              <li>Punto de entrada recomendado: {startHere?.title ?? "Articulo destacado"}.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      {startHere && (
+        <section class="section-block">
+          <div class="shell">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Empieza por aqui</p>
+                <h2>Una guia especialmente util para orientarte</h2>
+              </div>
+              <p>
+                Si es tu primera visita a esta seccion, esta lectura suele darte mejor contexto
+                y te abre el resto del bloque con mas sentido.
+              </p>
+            </div>
+            <ArticleCard article={startHere} />
+          </div>
+        </section>
+      )}
+
+      <section class="section-block">
+        <div class="shell">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Mas articulos</p>
+              <h2>Sigue dentro de esta seccion</h2>
+            </div>
+            <p>
+              Aqui tienes el resto de lecturas conectadas con este mismo tema para profundizar,
+              comparar enfoques o resolver una duda mas concreta.
+            </p>
+          </div>
+          <div class="story-grid">
+            {categoryArticles.map((entry) => (
+              <ArticleCard article={entry} compact />
+            ))}
+          </div>
+        </div>
+      </section>
+    </BaseLayout>
+  ) : kind === "article" && article ? (
+    <BaseLayout title={article.title} description={article.description}>
+      <section class="article-shell">
+        <div class="shell article-hero">
+          <div class="article-panel">
+            <Breadcrumbs
+              items={[
+                { label: "Inicio", href: "/" },
+                { label: "Guias", href: "/guias/" },
+                article.category
+                  ? {
+                      label: getCategoryBySlug(article.category)?.name ?? article.category,
+                      href: `/${article.category}/`
+                    }
+                  : { label: "Guias", href: "/guias/" },
+                { label: article.title }
+              ]}
+            />
+            <p class="eyebrow">{article.kicker}</p>
+            <h1>{article.title}</h1>
+            <p>{article.intro}</p>
+          </div>
+
+          <aside class="summary-panel">
+            <p class="eyebrow">Resumen rapido</p>
+            <ul>
+              {article.summary.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+            <div class="hero-aside-stat">
+              <strong>{article.heroStat}</strong>
+              <span>{article.heroLabel}</span>
+            </div>
+            <div class="hero-aside-stat">
+              <strong>{article.readTime}</strong>
+              <span>lectura estimada</span>
+            </div>
+          </aside>
+        </div>
+
+        <div class="shell article-shell-grid">
+          <div class="content-stack">
+            {article.slug === "documentos-de-identidad/tamano-carnet-medidas" && (
+              <PrintSizeCalculator />
+            )}
+
+            {article.sections.map((section) => (
+              <section class="content-section">
+                <h2>{section.title}</h2>
+                {section.intro && <p>{section.intro}</p>}
+                {section.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+                {section.bullets && (
+                  <ul>
+                    {section.bullets.map((bullet) => (
+                      <li>{bullet}</li>
+                    ))}
+                  </ul>
+                )}
+                {section.cards && (
+                  <div class="cards-grid">
+                    {section.cards.map((card) => (
+                      <article>
+                        <h3>{card.title}</h3>
+                        <p>{card.text}</p>
+                      </article>
+                    ))}
+                  </div>
+                )}
+                {section.table && (
+                  <div>
+                    {section.table.caption && <p class="story-meta">{section.table.caption}</p>}
+                    <table>
+                      <thead>
+                        <tr>
+                          {section.table.columns.map((column) => (
+                            <th>{column}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {section.table.rows.map((row) => (
+                          <tr>
+                            {row.map((cell) => (
+                              <td>{cell}</td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+                {section.quote && (
+                  <blockquote class="quote">
+                    <p>{section.quote.text}</p>
+                    <footer>{section.quote.author}</footer>
+                  </blockquote>
+                )}
+              </section>
+            ))}
+
+            {article.faq && (
+              <section class="content-section">
+                <h2>Preguntas frecuentes</h2>
+                <div class="faq-grid">
+                  {article.faq.map((item) => (
+                    <article class="faq-item">
+                      <h3>{item.question}</h3>
+                      <p>{item.answer}</p>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {relatedArticles.length > 0 && (
+              <section class="section-block">
+                <div class="section-head">
+                  <div>
+                    <p class="eyebrow">Siguiente paso</p>
+                    <h2>Guias relacionadas</h2>
+                  </div>
+                  <p>
+                    Si quieres seguir tirando del hilo, estas lecturas conectan bien con lo que
+                    acabas de leer y amplian el tema desde otro angulo.
+                  </p>
+                </div>
+                <div class="story-grid">
+                  {relatedArticles.map((entry) => (
+                    <ArticleCard article={entry} compact />
+                  ))}
+                </div>
+              </section>
+            )}
+          </div>
+
+          <aside class="summary-panel">
+            <p class="eyebrow">Ficha</p>
+            <ul>
+              <li>{getCategoryBySlug(article.category)?.name ?? article.category}</li>
+              <li>Actualizado el {article.updatedAt}</li>
+              <li>Lectura organizada por secciones para consultar con rapidez.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+    </BaseLayout>
+  ) : null
+}

@@ -1,0 +1,66 @@
+---
+import ArticleCard from "../../components/ArticleCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { articles, categories, getArticlesByCategory } from "../../data/site";
+---
+
+<BaseLayout
+  title="Guias de fotografia por temas"
+  description="Indice general con articulos y guias de fotografia sobre tecnica, composicion, retrato, edicion, equipo y cultura visual."
+>
+  <section class="hub-shell">
+    <div class="shell">
+      <div class="hub-panel">
+        <p class="eyebrow">Indice general</p>
+        <h1>Todas las guias de fotografia, reunidas por temas.</h1>
+        <p>
+          Entra por la seccion que mas te interese ahora y ve enlazando lecturas relacionadas
+          para avanzar con mas orden, menos ruido y mejores referencias.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Secciones</p>
+          <h2>Un mapa claro para orientarte rapido</h2>
+        </div>
+        <p>
+          Cada bloque reune articulos conectados por una misma intencion: entender la tecnica,
+          dirigir retrato, resolver edicion, elegir equipo o practicar con mas sentido.
+        </p>
+      </div>
+
+      <div class="grid-4">
+        {categories.map((category) => (
+          <a class="hub-panel" href={`/${category.slug}/`}>
+            <p class="story-meta">{getArticlesByCategory(category.slug).length} guias</p>
+            <h3>{category.name}</h3>
+            <p>{category.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Todo el contenido</p>
+          <h2>Articulos, glosarios, comparativas y tutoriales</h2>
+        </div>
+        <p>{articles.length} lecturas para consultar, aprender y seguir practicando.</p>
+      </div>
+
+      <div class="story-grid">
+        {articles.map((article) => (
+          <ArticleCard article={article} compact />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

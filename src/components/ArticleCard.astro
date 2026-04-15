@@ -1,0 +1,27 @@
+---
+import { getCategoryBySlug } from "../data/site";
+import type { Article } from "../data/site";
+
+type Props = {
+  article: Article;
+  compact?: boolean;
+};
+
+const { article, compact = false } = Astro.props;
+const category = getCategoryBySlug(article.category);
+---
+
+<article class:list={["story-card", compact && "story-card-compact"]}>
+  <p class="story-meta">
+    <span>{category?.name ?? article.category}</span>
+    <span>{article.readTime}</span>
+  </p>
+  <h3>
+    <a href={`/${article.slug}/`}>{article.title}</a>
+  </h3>
+  <p>{article.description}</p>
+  <div class="story-footer">
+    <span>{article.kicker}</span>
+    <a href={`/${article.slug}/`}>Leer guia</a>
+  </div>
+</article>

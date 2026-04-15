@@ -1,0 +1,37 @@
+---
+import { categories } from "../data/site";
+---
+
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div>
+      <p class="eyebrow">Estudio de Fotografia</p>
+      <h2>Guias, referencias y recursos para mirar mejor.</h2>
+      <p class="footer-copy">
+        Tecnica, composicion, edicion, retrato y equipo explicados con claridad
+        para que cada lectura te ayude a fotografiar mejor y a trabajar con mas criterio.
+      </p>
+    </div>
+
+    <div>
+      <p class="footer-title">Rutas principales</p>
+      <ul class="footer-links">
+        {categories.slice(0, 6).map((category) => (
+          <li>
+            <a href={`/${category.slug}/`}>{category.name}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <p class="footer-title">Paginas clave</p>
+      <ul class="footer-links">
+        <li><a href="/documentos-de-identidad/tamano-carnet-medidas/">Tamano carnet</a></li>
+        <li><a href="/conceptos-basicos/que-es-el-obturador/">Que es el obturador</a></li>
+        <li><a href="/post-produccion/que-es-adobe-camera-raw-y-como-empezar/">Camera Raw</a></li>
+        <li><a href="/inspiracion/que-es-un-ensayo-fotografico-17-ejemplos-e-ideas/">Ensayo fotografico</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

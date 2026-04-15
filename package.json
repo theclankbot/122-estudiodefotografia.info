@@ -1,0 +1,22 @@
+{
+  "name": "122-estudiodefotografia.info",
+  "version": "1.0.0",
+  "description": "Nueva base editorial para estudiodefotografia.info",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "keywords": [
+    "astro",
+    "fotografia",
+    "seo",
+    "editorial"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "astro": "^5.14.5"
+  }
+}

@@ -1,0 +1,75 @@
+---
+const calculatorId = "print-size-calculator";
+---
+
+<section class="tool-card">
+  <div class="tool-copy">
+    <p class="eyebrow">Herramienta</p>
+    <h2>Calculadora rápida de tamaño y resolución</h2>
+    <p>
+      Ajusta medidas y resolución para obtener el tamaño exacto en píxeles antes
+      de imprimir o subir la imagen a un trámite digital.
+    </p>
+  </div>
+
+  <div class="tool-grid" id={calculatorId}>
+    <label>
+      Preset
+      <select data-preset>
+        <option value="32,26">Carnet España 32 x 26 mm</option>
+        <option value="35,45">35 x 45 mm</option>
+        <option value="101.6,152.4">4 x 6 pulgadas</option>
+      </select>
+    </label>
+    <label>
+      Ancho (mm)
+      <input data-width type="number" min="1" step="0.1" value="32" />
+    </label>
+    <label>
+      Alto (mm)
+      <input data-height type="number" min="1" step="0.1" value="26" />
+    </label>
+    <label>
+      Resolución (dpi)
+      <input data-dpi type="number" min="72" step="1" value="300" />
+    </label>
+    <div class="tool-result">
+      <span>Píxeles recomendados</span>
+      <strong data-result>378 x 307 px</strong>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  const root = document.getElementById("print-size-calculator");
+
+  if (root) {
+    const widthInput = root.querySelector("[data-width]");
+    const heightInput = root.querySelector("[data-height]");
+    const dpiInput = root.querySelector("[data-dpi]");
+    const presetInput = root.querySelector("[data-preset]");
+    const result = root.querySelector("[data-result]");
+
+    const update = () => {
+      const width = Number(widthInput.value);
+      const height = Number(heightInput.value);
+      const dpi = Number(dpiInput.value);
+      const widthPx = Math.round((width / 25.4) * dpi);
+      const heightPx = Math.round((height / 25.4) * dpi);
+      result.textContent = `${widthPx} x ${heightPx} px`;
+    };
+
+    presetInput.addEventListener("change", () => {
+      const [width, height] = presetInput.value.split(",");
+      widthInput.value = width;
+      heightInput.value = height;
+      update();
+    });
+
+    [widthInput, heightInput, dpiInput].forEach((input) => {
+      input.addEventListener("input", update);
+    });
+
+    update();
+  }
+</script>

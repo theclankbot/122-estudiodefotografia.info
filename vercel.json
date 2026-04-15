@@ -1,0 +1,30 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/inapropiado/mujer-sin-ropa-fotos",
+      "destination": "/retrato/fotografia-de-desnudo-artistico/",
+      "permanent": true
+    },
+    {
+      "source": "/arte/imagenes-subrealistas",
+      "destination": "/inspiracion/",
+      "permanent": true
+    },
+    {
+      "source": "/arte/nariz-dibujo-realista",
+      "destination": "/inspiracion/",
+      "permanent": true
+    },
+    {
+      "source": "/arte/enmarcar-significado",
+      "destination": "/inspiracion/",
+      "permanent": true
+    },
+    {
+      "source": "/fotografia-de-emociones/imagenes-de-aburrida",
+      "destination": "/inspiracion/",
+      "permanent": true
+    }
+  ]
+}
