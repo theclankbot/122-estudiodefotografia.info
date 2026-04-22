@@ -2,6 +2,17 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.estudiodefotografia.info"
+        }
+      ],
+      "destination": "https://estudiodefotografia.info/:path*",
+      "permanent": true
+    },
+    {
       "source": "/inapropiado/mujer-sin-ropa-fotos",
       "destination": "/retrato/fotografia-de-desnudo-artistico/",
       "permanent": true

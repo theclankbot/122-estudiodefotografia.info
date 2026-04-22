@@ -3,6 +3,7 @@ import { expansionArticlesA } from "./articles-expansion-a";
 import { expansionArticlesB } from "./articles-expansion-b";
 import { expansionArticlesC } from "./articles-expansion-c";
 import { expansionArticlesD } from "./articles-expansion-d";
+import { expansionRecoveryArticles } from "./articles-expansion-recovery";
 import { curatedReadingSlugs, editorialPrinciples, homeStats, learningTracks, navigation } from "./home";
 import { editorialArticles } from "./articles-editorial";
 import { foundationArticles } from "./articles-foundation";
@@ -19,7 +20,8 @@ export const articles: Article[] = [
   ...expansionArticlesA,
   ...expansionArticlesB,
   ...expansionArticlesC,
-  ...expansionArticlesD
+  ...expansionArticlesD,
+  ...expansionRecoveryArticles
 ];
 
 export const featuredArticleSlugs = [
