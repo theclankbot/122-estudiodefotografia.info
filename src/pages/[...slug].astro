@@ -37,6 +37,7 @@ const article = kind === "article" ? getArticleBySlug(slug) : undefined;
 const relatedArticles = article ? getRelatedArticles(article.related) : [];
 const categoryArticles = category ? getArticlesByCategory(category.slug) : [];
 const startHere = category ? getArticleBySlug(category.startHere) : undefined;
+const articleCategory = article ? getCategoryBySlug(article.category) : undefined;
 ---
 
 {
@@ -117,8 +118,8 @@ const startHere = category ? getArticleBySlug(category.startHere) : undefined;
                 { label: "Guias", href: "/guias/" },
                 article.category
                   ? {
-                      label: getCategoryBySlug(article.category)?.name ?? article.category,
-                      href: `/${article.category}/`
+                      label: articleCategory?.name ?? article.category,
+                      href: articleCategory ? `/${articleCategory.slug}/` : undefined
                     }
                   : { label: "Guias", href: "/guias/" },
                 { label: article.title }
@@ -245,7 +246,7 @@ const startHere = category ? getArticleBySlug(category.startHere) : undefined;
           <aside class="summary-panel">
             <p class="eyebrow">Ficha</p>
             <ul>
-              <li>{getCategoryBySlug(article.category)?.name ?? article.category}</li>
+              <li>{articleCategory?.name ?? article.category}</li>
               <li>Actualizado el {article.updatedAt}</li>
               <li>Lectura organizada por secciones para consultar con rapidez.</li>
             </ul>
