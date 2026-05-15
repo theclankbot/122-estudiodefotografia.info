@@ -1,5 +1,6 @@
 ---
 import ArticleCard from "../components/ArticleCard.astro";
+import AdSenseUnit from "../components/AdSenseUnit.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import PrintSizeCalculator from "../components/PrintSizeCalculator.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -150,11 +151,13 @@ const articleCategory = article ? getCategoryBySlug(article.category) : undefine
 
         <div class="shell article-shell-grid">
           <div class="content-stack">
+            <AdSenseUnit class="top-ad" />
             {article.slug === "documentos-de-identidad/tamano-carnet-medidas" && (
               <PrintSizeCalculator />
             )}
 
-            {article.sections.map((section) => (
+            {article.sections.map((section, sectionIndex) => (
+              <>
               <section class="content-section">
                 <h2>{section.title}</h2>
                 {section.intro && <p>{section.intro}</p>}
@@ -206,6 +209,8 @@ const articleCategory = article ? getCategoryBySlug(article.category) : undefine
                   </blockquote>
                 )}
               </section>
+              {(sectionIndex === 0 || sectionIndex === 2) && <AdSenseUnit />}
+              </>
             ))}
 
             {article.faq && (
